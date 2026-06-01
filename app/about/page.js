@@ -1,7 +1,8 @@
 function page() {
 	return (
 		<div>
-			<p>about</p>
+			
+			<h1>about</h1>
 		</div>
 	);
 }
