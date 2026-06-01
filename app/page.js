@@ -1,13 +1,8 @@
-import Link from "next/Link";
-import Navigation from "./components/Navigation";
+import Link from "next/link";
 function Page() {
 	return (
 		<div>
-			<Navigation />
-
-			<h1>Hello</h1>
-
-			<Link href="/cabins"> Move to Cabins </Link>
+			<h1>Hello World</h1>
 		</div>
 	);
 }
