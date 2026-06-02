@@ -1,19 +1,21 @@
-// trick
+// trick to access
 import Navigation from "@/app/_components/Navigation";
 import Logo from "@/app/_components/Logo";
 export const metadata = {
 	title: "The Wild Oasis",
 };
 
+import "@/app/_styles/globals.css";
+
 export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
-			<body>
+			<body className="bg-primary-950 text-gray-50 min-h-screen ">
 				<header>
 					<Logo />
 					<Navigation />
 				</header>
-				{/* children = the page of the route */}
+				{/* children = route */}
 				<main>{children}</main>
 				<footer>Copy by The Wild Oasis</footer>
 			</body>
