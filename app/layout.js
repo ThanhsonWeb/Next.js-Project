@@ -1,9 +1,4 @@
 import { Josefin_Sans } from "next/font/google";
-const josefin = Josefin_Sans({
-	subsets: ["latins"], // for Eng
-	display: "swap",
-});
-
 import "@/app/_styles/globals.css";
 import Header from "./_components/Header";
 export const metadata = {
@@ -13,10 +8,14 @@ export const metadata = {
 		template: "%s | The Wild Oasis",
 		default: "Welcome | The Wild Oasis",
 	},
-
+	
 	description:
-		"Luxurious cabin hotel, located in the heart of the New York, surrounded by beautiful mountains and dark forests",
+	"Luxurious cabin hotel, located in the heart of the New York, surrounded by beautiful mountains and dark forests",
 };
+const josefin = Josefin_Sans({
+	subsets: ["latins"], // for Eng
+	display: "swap",
+});
 
 export default function RootLayout({ children }) {
 	return (
