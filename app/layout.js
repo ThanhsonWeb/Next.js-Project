@@ -1,17 +1,11 @@
-// trick to access
-import Navigation from "@/app/_components/Navigation";
-import Logo from "@/app/_components/Logo";
-// b1 : import font u want
 import { Josefin_Sans } from "next/font/google";
-// call function
 const josefin = Josefin_Sans({
-	subsets: ["latins"],
+	subsets: ["latins"], // for Eng
 	display: "swap",
 });
 
-console.log(josefin);
-
 import "@/app/_styles/globals.css";
+import Header from "./_components/Header";
 export const metadata = {
 	// title: "The Wild Oasis",
 	// %s = title of route
@@ -28,16 +22,13 @@ export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
 			<body
-			// b3 use it
-				className={`${josefin.className} bg-primary-950 text-gray-50 min-h-screen `}
+				className={`${josefin.className} bg-primary-950 text-gray-50 min-h-screen flex flex-col `}
 			>
-				<header>
-					<Logo />
-					<Navigation />
-				</header>
+				<Header />
 				{/* children = route */}
-				<main>{children}</main>
-				<footer>Copy by The Wild Oasis </footer>
+				<div className="flex-1 px-8 py-12 ">
+					<main className="max-w-7xl bg-blue-800 mx-auto"> {children}</main>
+				</div>
 			</body>
 		</html>
 	);
