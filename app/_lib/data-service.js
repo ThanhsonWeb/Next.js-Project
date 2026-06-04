@@ -1,7 +1,7 @@
 import { eachDayOfInterval } from "date-fns";
 import { supabase } from "./supabase.js";
 /////////////
-// GET 
+// GET
 
 //this file is your data access layer — a collection of functions that fetch, create, update, and delete data from Supabase.
 
@@ -9,7 +9,7 @@ export async function getCabin(id) {
 	const { data, error } = await supabase
 		.from("cabins")
 		.select("*")
-		.eq("id", id)
+		.eq("id", Number(id))
 		.single();
 
 	// For testing
@@ -17,6 +17,8 @@ export async function getCabin(id) {
 
 	if (error) {
 		console.error(error);
+		
+		throw new Error("Cabin could not be loaded");
 	}
 
 	return data;
