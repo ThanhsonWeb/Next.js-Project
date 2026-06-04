@@ -1,7 +1,17 @@
 import { getCabin } from "@/app/_lib/data-service";
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
 import { ca } from "date-fns/locale";
-// Dynamic Route segments
+import Image from "next/image";
+
+// export const metadata = {
+// 	title: "Cabin",
+// };
+// the way I written in book is not correct =))
+export async function generateMetadata({ params }) {
+	const { cabinId } = await params;
+	const { name } = await getCabin(cabinId);
+	return { title: `cabin ${name}` };
+}
 
 export default async function Page({ params }) {
 	const { cabinId } = await params;
@@ -16,7 +26,12 @@ export default async function Page({ params }) {
 		<div className="max-w-6xl mx-auto mt-8">
 			<div className="grid grid-cols-[3fr_4fr] gap-20 border border-primary-800 py-3 px-10 mb-24">
 				<div className="relative scale-[1.15] -translate-x-3">
-					<img src={image} alt={`Cabin ${name}`} />
+					<Image
+						src={image}
+						fill
+						className="object-cover"
+						alt={`Cabin ${name}`}
+					/>
 				</div>
 
 				<div>
