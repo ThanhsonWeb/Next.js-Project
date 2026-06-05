@@ -9,6 +9,7 @@ export async function generateMetadata({ params }) {
 	return { title: `cabin ${name}` };
 }
 
+// define id route for next Js
 export async function generateStaticParams() {
 	const cabins = await getCabins();
 

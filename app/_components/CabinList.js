@@ -5,7 +5,7 @@ import { getCabins } from "../_lib/data-service";
 import Spinner from "./Spinner";
 async function CabinList() {
 
-	
+
 
 	const cabins = await getCabins();
 	if (!cabins.length) return null;
