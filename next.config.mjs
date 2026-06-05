@@ -9,8 +9,9 @@ const nextConfig = {
 				pathname: "/storage/v1/object/public/**",
 			},
 		],
-		qualities: [75, 80, 100],
 	},
+	// output: "export",
+	//  deploy your app as a static export (pure HTML/CSS/JS with no server).
 };
 
 export default nextConfig;

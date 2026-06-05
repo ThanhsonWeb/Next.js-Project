@@ -1,23 +1,25 @@
-import { getCabin } from "@/app/_lib/data-service";
+import { getCabin, getCabins } from "@/app/_lib/data-service";
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
 import { ca } from "date-fns/locale";
 import Image from "next/image";
 
-// export const metadata = {
-// 	title: "Cabin",
-// };
-// the way I written in book is not correct =))
 export async function generateMetadata({ params }) {
 	const { cabinId } = await params;
 	const { name } = await getCabin(cabinId);
 	return { title: `cabin ${name}` };
 }
 
+export async function generateStaticParams() {
+	const cabins = await getCabins();
+
+	const ids = cabins.map((cabin) => ({ cabinId: String(cabin.id) }));
+	return ids;
+}
+
 export default async function Page({ params }) {
 	const { cabinId } = await params;
 	const cabin = await getCabin(cabinId);
 
-	// ✅ Check first before destructuring
 	if (!cabin) return <p> Cabin is Not Found </p>;
 
 	const { id, name, maxCapacity, regularPrice, discount, image, description } =
@@ -52,7 +54,7 @@ export default async function Page({ params }) {
 						<li className="flex gap-3 items-center">
 							<MapPinIcon className="h-5 w-5 text-primary-600" />
 							<span className="text-lg">
-								Located in the heart of the{" "}
+								Located in the heart of the
 								<span className="font-bold">Dolomites</span> (Italy)
 							</span>
 						</li>
