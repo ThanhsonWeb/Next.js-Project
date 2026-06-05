@@ -1,6 +1,13 @@
 import { Suspense } from "react";
 import CabinList from "../_components/CabinList";
 import Spinner from "../_components/Spinner";
+// "npm  run prod" to see changes : build and start 
+//  b1 :make static -> dynamic
+
+// middle ground to control time value changed 
+// export const revalidate = 3600; // by seconds
+// export const revalidate = 15;
+
 export const metadata = {
 	title: "Cabins",
 };
