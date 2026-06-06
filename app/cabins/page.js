@@ -11,8 +11,6 @@ export const metadata = {
 
 export default async function Page({ searchParams }) {
 	const query = await searchParams;
-	// b1. searchParams to take value of "capacity" from URL
-	// value = "small" , "medium" , "large" or "all"
 	const capacityFilter = query?.capacity ?? "all";
 
 	return (
@@ -28,12 +26,11 @@ export default async function Page({ searchParams }) {
 				away from home. The perfect spot for a peaceful, calm vacation. Welcome
 				to paradise.
 			</p>
-			{/* step 1 : use it */}
 			<div className="flex justify-end mb-8">
 				<Filter />
 			</div>
-			<Suspense fallback={<Spinner />}>
-				{/* b2  pass as prop */}
+			{/* fix spinner not appear */}
+			<Suspense fallback={<Spinner />} key={capacityFilter}>
 				<CabinList capacityFilter={capacityFilter} />
 			</Suspense>
 		</div>
