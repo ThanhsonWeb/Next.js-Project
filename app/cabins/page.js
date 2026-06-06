@@ -1,19 +1,19 @@
 import { Suspense } from "react";
 import CabinList from "../_components/CabinList";
 import Spinner from "../_components/Spinner";
-// "npm  run prod" to see changes : build and start 
-//  b1 :make static -> dynamic
 
-// this is Partial Pre- rendering
-// middle ground to control time value changed 
-// export const revalidate = 3600; // by seconds
 export const revalidate = 15;
 
 export const metadata = {
 	title: "Cabins",
 };
 
-export default function Page() {
+export default async function Page({ searchParams }) {
+	const resolvedSearchParams = await searchParams;
+	// b1. searchParams to take value "capacity"
+	// ex: /account?capacity=small.
+	const capacityFilter = resolvedSearchParams?.capacity ?? "all";
+
 	return (
 		<div>
 			<h1 className="text-4xl mb-5 text-accent-400 font-medium">
@@ -27,13 +27,10 @@ export default function Page() {
 				away from home. The perfect spot for a peaceful, calm vacation. Welcome
 				to paradise.
 			</p>
-			{/* b1 */}
 			<Suspense fallback={<Spinner />}>
-				<CabinList />
+				{/* b2  pass as prop */}
+				<CabinList capacityFilter={capacityFilter} />
 			</Suspense>
 		</div>
 	);
 }
-// server component
-// 1. go to cabin page -> take some time to fetch data from the server
-// 2. ->  send it to the browser -> client no need to fetch !
