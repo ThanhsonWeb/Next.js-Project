@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import CabinList from "../_components/CabinList";
 import Spinner from "../_components/Spinner";
+import Filter from "../_components/Filter";
 
 export const revalidate = 15;
 
@@ -9,10 +10,10 @@ export const metadata = {
 };
 
 export default async function Page({ searchParams }) {
-	const resolvedSearchParams = await searchParams;
-	// b1. searchParams to take value "capacity"
-	// ex: /account?capacity=small.
-	const capacityFilter = resolvedSearchParams?.capacity ?? "all";
+	const query = await searchParams;
+	// b1. searchParams to take value of "capacity" from URL
+	// value = "small" , "medium" , "large" or "all"
+	const capacityFilter = query?.capacity ?? "all";
 
 	return (
 		<div>
@@ -27,6 +28,10 @@ export default async function Page({ searchParams }) {
 				away from home. The perfect spot for a peaceful, calm vacation. Welcome
 				to paradise.
 			</p>
+			{/* step 1 : use it */}
+			<div className="flex justify-end mb-8">
+				<Filter />
+			</div>
 			<Suspense fallback={<Spinner />}>
 				{/* b2  pass as prop */}
 				<CabinList capacityFilter={capacityFilter} />

@@ -29,6 +29,7 @@ const navLinks = [
 function SideNavigation() {
   // built in hook
 	const pathname = usePathname(); //http://localhost:3000/account/...
+	console.log(pathname)
 
 	return (
 		<nav className="border-r border-primary-900">
