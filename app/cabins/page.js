@@ -10,8 +10,8 @@ export const metadata = {
 };
 
 export default async function Page({ searchParams }) {
-	const query = await searchParams;
-	const capacityFilter = query?.capacity ?? "all";
+	const query = await searchParams; // capacity: 'small'
+	const filter = query?.capacity ?? "all";
 
 	return (
 		<div>
@@ -30,8 +30,8 @@ export default async function Page({ searchParams }) {
 				<Filter />
 			</div>
 			{/* fix spinner not appear */}
-			<Suspense fallback={<Spinner />} key={capacityFilter}>
-				<CabinList capacityFilter={capacityFilter} />
+			<Suspense fallback={<Spinner />} key={filter}>
+				<CabinList filter={filter} />
 			</Suspense>
 		</div>
 	);

@@ -2,20 +2,20 @@ import CabinCard from "@/app/_components/CabinCard";
 import { getCabins } from "../_lib/data-service";
 import Spinner from "./Spinner";
 
-async function CabinList({ capacityFilter }) {
+async function CabinList({ filter }) {
 	const cabins = await getCabins();
 	if (!cabins.length) return null;
 
-	// b3  decide which cabins to display based on maxCapacity
+	// b3  decide which cabins to display base on maxCapacity
 	let displayedCabins;
-	if (capacityFilter === "all") displayedCabins = cabins;
-	if (capacityFilter === "small")
+	if (filter === "all") displayedCabins = cabins;
+	if (filter === "small")
 		displayedCabins = cabins.filter((cabin) => cabin.maxCapacity <= 3);
-	if (capacityFilter === "medium")
+	if (filter === "medium")
 		displayedCabins = cabins.filter(
 			(cabin) => cabin.maxCapacity >= 4 && cabin.maxCapacity <= 7,
 		);
-	if (capacityFilter === "large")
+	if (filter === "large")
 		displayedCabins = cabins.filter((cabin) => cabin.maxCapacity >= 8);
 
 	return (
