@@ -19,9 +19,9 @@ export default function Page() {
 				faster and smoother. See you soon!
 			</p>
 			{/* the only way the pass server-c in Client-c */}
-			{/* Client-component*/}
+			{/* Client-c*/}
 			<UpdateProfileForm>
-				{/* server component */}
+				{/* server-c */}
 				<SelectCountry
 					name="nationality"
 					id="nationality"
