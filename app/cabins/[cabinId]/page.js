@@ -1,7 +1,12 @@
 import DateSelector from "@/app/_components/DateSelector";
 import ReservationForm from "@/app/_components/ReservationForm";
 import TextExpander from "@/app/_components/TextExpander";
-import { getCabin, getCabins } from "@/app/_lib/data-service";
+import {
+	getBookedDatesByCabinId,
+	getCabin,
+	getCabins,
+	getSettings,
+} from "@/app/_lib/data-service";
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
 import { ca } from "date-fns/locale";
 import Image from "next/image";
@@ -22,9 +27,17 @@ export async function generateStaticParams() {
 
 export default async function Page({ params }) {
 	const { cabinId } = await params;
-	const cabin = await getCabin(cabinId);
+	// const cabin = await getCabin(cabinId); // 2s
+	// // b2 : fetch more settings and ...
+	// const settings = await getSettings(); // 2s
+	// const bookedDates = await getBookedDatesByCabinId(cabinId); // 2s
 
-	// b2 : fetch setting
+	// b3 : optimize time loading for all fetching
+	const [cabin, settings, bookedDates] = await Promise.all([
+		getCabin(cabinId),
+		getSettings(),
+		getBookedDatesByCabinId(cabinId),
+	]);
 
 	if (!cabin) return <p> Cabin is Not Found </p>;
 
