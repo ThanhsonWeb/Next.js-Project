@@ -96,7 +96,7 @@ export async function getBookings(guestId) {
 
 	return data;
 }
-
+                                                                                            
 export async function getBookedDatesByCabinId(cabinId) {
 	let today = new Date();
 	today.setUTCHours(0, 0, 0, 0);

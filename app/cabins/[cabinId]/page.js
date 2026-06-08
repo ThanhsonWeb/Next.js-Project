@@ -1,23 +1,16 @@
-import DateSelector from "@/app/_components/DateSelector";
-import ReservationForm from "@/app/_components/ReservationForm";
+import Reservation from "@/app/_components/Reservation";
+import Spinner from "@/app/_components/Spinner";
 import TextExpander from "@/app/_components/TextExpander";
-import {
-	getBookedDatesByCabinId,
-	getCabin,
-	getCabins,
-	getSettings,
-} from "@/app/_lib/data-service";
+import { getCabin, getCabins } from "@/app/_lib/data-service";
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
 import { ca } from "date-fns/locale";
 import Image from "next/image";
-// dynamic title
+import { Suspense } from "react";
 export async function generateMetadata({ params }) {
 	const { cabinId } = await params;
 	const { name } = await getCabin(cabinId);
 	return { title: `cabin ${name}` };
 }
-
-// define id route for next Js
 export async function generateStaticParams() {
 	const cabins = await getCabins();
 
@@ -27,17 +20,7 @@ export async function generateStaticParams() {
 
 export default async function Page({ params }) {
 	const { cabinId } = await params;
-	// const cabin = await getCabin(cabinId); // 2s
-	// // b2 : fetch more settings and ...
-	// const settings = await getSettings(); // 2s
-	// const bookedDates = await getBookedDatesByCabinId(cabinId); // 2s
-
-	// b3 : optimize time loading for all fetching
-	const [cabin, settings, bookedDates] = await Promise.all([
-		getCabin(cabinId),
-		getSettings(),
-		getBookedDatesByCabinId(cabinId),
-	]);
+	const cabin = await getCabin(cabinId); // 2s
 
 	if (!cabin) return <p> Cabin is Not Found </p>;
 
@@ -93,12 +76,12 @@ export default async function Page({ params }) {
 				<h2 className="text-5xl font-semibold text-center mb-10 text-accent-400">
 					Reserve {name} today. Pay on arrival.
 				</h2>
-
-				<div className="grid sm:grid-cols-1  md:grid-cols-2 border border-primary-800  min-h-[400px] ">
-					{/* b1 : client-c here */}
-					<DateSelector />
-					<ReservationForm />
-				</div>
+				{/* content above no need to wait -> better UX */}
+				<Suspense fallback={<Spinner />}>
+				{/* b1 : fetch Settings and bookedDates here   */}
+					<Reservation cabin={cabin} />
+				</Suspense>
+				{/* suspense -> just only this server-c is waiting to fetch data when users arrive this page !  */}
 			</div>
 		</div>
 	);
