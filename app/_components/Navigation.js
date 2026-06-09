@@ -3,6 +3,7 @@ import { auth } from "../_lib/auth";
 import Image from "next/image";
 
 export default async function Navigation() {
+	// b1 fetch auth
 	const session = await auth();
 	console.log(session);
 
@@ -25,7 +26,7 @@ export default async function Navigation() {
 						About
 					</Link>
 				</li>
-				{/* display it here */}
+				{/* b2 . display it here */}
 				<li>
 					{session?.user?.image ? (
 						<Link
