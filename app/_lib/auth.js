@@ -1,4 +1,3 @@
-// b2
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
@@ -9,17 +8,19 @@ const authConfig = {
 			clientSecret: process.env.AUTH_GOOGLE_SECRET,
 		}),
 	],
-
+	pages: {
+		signIn: "/login", // custom login page
+	},
 	callbacks: {
 		authorized({ auth }) {
-			// If auth() find valid session -> return true -> allow access
+			// Allow access only if user is logged in
 			return !!auth?.user;
-			// If false -> NEXTjs return to /api/auth/signin.
 		},
 	},
 };
 
 export const {
 	auth,
+	signIn,
 	handlers: { GET, POST },
 } = NextAuth(authConfig);
