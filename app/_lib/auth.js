@@ -9,6 +9,14 @@ const authConfig = {
 			clientSecret: process.env.AUTH_GOOGLE_SECRET,
 		}),
 	],
+
+	callbacks: {
+		authorized({ auth }) {
+			// If auth() find valid session -> return true -> allow access
+			return !!auth?.user;
+			// If false -> NEXTjs return to /api/auth/signin.
+		},
+	},
 };
 
 export const {
