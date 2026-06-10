@@ -22,15 +22,19 @@ const authConfig = {
 			try {
 				// check if new Email is already in our database
 				const existingGuest = await getGuest(user.email);
-				console.log("Existing guest:", existingGuest);
 				if (!existingGuest)
 					await createGuest({ email: user.email, fullName: user.name });
-				console.log("Guest created");
 				return true; // allow login
 			} catch {
-				console.error("SIGNIN ERROR:", err);
 				return false; // block login if error
 			}
+		},
+
+		async session({ session, user }) {
+			const guest = await getGuest(session.user.email);
+         // take id from supabase
+			session.user.guestId = guest.id;
+			return session;
 		},
 	},
 };
