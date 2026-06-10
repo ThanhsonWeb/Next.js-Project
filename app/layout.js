@@ -14,7 +14,7 @@ export const metadata = {
 		"Luxurious cabin hotel, located in the heart of the New York, surrounded by beautiful mountains and dark forests",
 };
 const josefin = Josefin_Sans({
-	subsets: ["latins"], // for Eng
+	subsets: ["latin"], // for Eng
 	display: "swap",
 });
 

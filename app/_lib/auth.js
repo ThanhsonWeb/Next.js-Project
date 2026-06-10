@@ -18,15 +18,17 @@ const authConfig = {
 			return !!auth?.user;
 		},
 		// b1 : create new callbacks
-		async SignIn({ user, account, profile }) {
+		async signIn({ user, account, profile }) {
 			try {
+				// check if new Email is already in our database
 				const existingGuest = await getGuest(user.email);
-
+				console.log("Existing guest:", existingGuest);
 				if (!existingGuest)
 					await createGuest({ email: user.email, fullName: user.name });
-
+				console.log("Guest created");
 				return true; // allow login
 			} catch {
+				console.error("SIGNIN ERROR:", err);
 				return false; // block login if error
 			}
 		},
