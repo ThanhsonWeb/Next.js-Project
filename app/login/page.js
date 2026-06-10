@@ -1,5 +1,9 @@
 import SignInButton from "../_components/SignInButton";
 
+export const metaData = {
+	title: "Login",
+};
+
 export default function Page() {
 	return (
 		<div className="flex flex-col gap-10 mt-10 items-center">
