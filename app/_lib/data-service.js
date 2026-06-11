@@ -96,7 +96,7 @@ export async function getBookings(guestId) {
 
 	return data;
 }
-                                                                                            
+
 export async function getBookedDatesByCabinId(cabinId) {
 	let today = new Date();
 	today.setUTCHours(0, 0, 0, 0);
@@ -138,16 +138,26 @@ export async function getSettings() {
 	return data;
 }
 
+// export async function getCountries() {
+// 	try {
+// 		const res = await fetch(
+// 			"https://restcountries.com/v3.1/all?fields=name,flags",
+// 		);
+// 		const countries = await res.json();
+// 		return countries;
+// 	} catch {
+// 		throw new Error("Could not fetch countries");
+// 	}
+// }
+
+import countriesData from "./countries.json";
+
 export async function getCountries() {
-	try {
-		const res = await fetch(
-			"https://restcountries.com/v2/all?fields=name,flag",
-		);
-		const countries = await res.json();
-		return countries;
-	} catch {
-		throw new Error("Could not fetch countries");
-	}
+	// No API call needed anymore
+	return countriesData.map((c) => ({
+		name: c.name,
+		flag: `https://flagcdn.com/w320/${c.code}.png`, // attach flag URL
+	}));
 }
 
 /////////////
