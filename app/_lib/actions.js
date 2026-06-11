@@ -1,16 +1,24 @@
 "use server";
 // we are on the Back end ^^
 import { auth, signIn, signOut } from "./auth";
-// form submit -> Nextjs send formData to SA
+import { supabase } from "./supabase";
+// b5 : form submit -> Nextjs send formData to SA
 export async function UpdateGuest(formData) {
 	const session = await auth();
 	if (!session) throw new Error("You must be logged in");
-	// get value base on name
+	// b5.1 : get value base on name
 	const nationalID = formData.get("nationalID");
 	const [nationality, countryFlag] = formData.get("nationality").split("%");
 
 	const updateData = { nationalID, nationality, countryFlag };
-	console.log(updateData);
+	// b6 : Supabase updates the "guests table" for the current user:
+	const { data, error } = await supabase
+		.from("guests")
+		.update(updateData)
+		.eq("id", session.user.guestId);
+
+	if (error) throw new Error("Guest could not be updated");
+	return data;
 }
 
 export async function signInAction() {
