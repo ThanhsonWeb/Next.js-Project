@@ -1,20 +1,28 @@
 "use client";
 
+import { UpdateGuest } from "../_lib/actions";
 import SelectCountry from "./SelectCountry";
 import { useState } from "react";
 
-function UpdateProfileForm({ children }) {
+function UpdateProfileForm({ children, guest }) {
 	const [count, setCount] = useState();
 
-	const countryFlag = "pt.jpg";
+	// b3 : destructuring all data from our guest (supabase)
+	const { fullName, email, nationality, nationalID, countryFlag } = guest;
 
 	return (
 		<div>
-			<form className="bg-primary-900 py-8 px-12 text-lg flex gap-6 flex-col">
+			{/* b5 : use i (SA)  as a form*/}
+			<form
+				action={UpdateGuest}
+				className="bg-primary-900 py-8 px-12 text-lg flex gap-6 flex-col"
+			>
 				<div className="space-y-2">
 					<label>Full name</label>
 					<input
 						disabled
+						// b4 : no onchange -> use defaultValue
+						defaultValue={fullName}
 						className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm disabled:cursor-not-allowed disabled:bg-gray-600 disabled:text-gray-400"
 					/>
 				</div>
@@ -23,6 +31,7 @@ function UpdateProfileForm({ children }) {
 					<label>Email address</label>
 					<input
 						disabled
+						defaultValue={email}
 						className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm disabled:cursor-not-allowed disabled:bg-gray-600 disabled:text-gray-400"
 					/>
 				</div>
@@ -43,6 +52,7 @@ function UpdateProfileForm({ children }) {
 				<div className="space-y-2">
 					<label htmlFor="nationalID">National ID number</label>
 					<input
+						defaultValue={nationalID}
 						name="nationalID"
 						className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm"
 					/>
