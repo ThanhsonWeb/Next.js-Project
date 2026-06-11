@@ -21,13 +21,13 @@ export default async function Page() {
 				Providing the following information will make your check-in process
 				faster and smoother. See you soon!
 			</p>
-			{/* b2  */}
+			{/* b2  we need data from guest in UpdateProfileForm */}
 			<UpdateProfileForm guest={guest}>
 				<SelectCountry
 					name="nationality"
 					id="nationality"
 					className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm"
-					defaultCountry={guest.nationality}
+					defaultCountry={guest.nationality} //vietnam
 				/>
 			</UpdateProfileForm>
 		</div>

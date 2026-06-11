@@ -1,10 +1,16 @@
 "use server";
+// we are on the Back end ^^
+import { auth, signIn, signOut } from "./auth";
+// form submit -> Nextjs send formData to SA
+export async function UpdateGuest(formData) {
+	const session = await auth();
+	if (!session) throw new Error("You must be logged in");
+	// get value base on name
+	const nationalID = formData.get("nationalID");
+	const [nationality, countryFlag] = formData.get("nationality").split("%");
 
-// this function is always be call on the server
-import { signIn, signOut } from "./auth";
-// b4.1
-export async function UpdateGuest() {
-	console.log("server action");
+	const updateData = { nationalID, nationality, countryFlag };
+	console.log(updateData);
 }
 
 export async function signInAction() {
