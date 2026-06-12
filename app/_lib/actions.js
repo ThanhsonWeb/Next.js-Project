@@ -21,9 +21,9 @@ export async function UpdateGuest(formData) {
 		.eq("id", session.user.guestId);
 
 	if (error) throw new Error("Guest could not be updated");
-	return data;
-	//  refesh the page
 	revalidatePath("/account/profile");
+	return data;
+	//  refresh the cache
 }
 
 export async function signInAction() {
