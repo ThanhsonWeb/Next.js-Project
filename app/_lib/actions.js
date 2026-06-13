@@ -5,6 +5,7 @@ import { revalidate } from "../cabins/page";
 import { auth, signIn, signOut } from "./auth";
 import { supabase } from "./supabase";
 import { getBookings } from "./data-service";
+import { redirect } from "next/navigation";
 export async function UpdateGuest(formData) {
 	const session = await auth();
 	if (!session) throw new Error("You must be logged in");
@@ -24,17 +25,15 @@ export async function UpdateGuest(formData) {
 	revalidatePath("/account/profile");
 	return data;
 }
-// b1 : delete booking on id
 export async function deleteReservation(bookingId) {
+	// Authentication
 	const session = await auth();
 	if (!session) throw new Error("You must be logged in");
-	// b3 : getBookings -> compare all the ids of bookings to 
 	const guestBookings = await getBookings(session.user.guestId);
 	const guestBookingIds = guestBookings.map((booking) => booking.id);
 
-	if(!guestBookingIds.includes(bookingId))
-		throw new Error("you are not allowed to delete this booking")
-
+	if (!guestBookingIds.includes(bookingId))
+		throw new Error("you are not allowed to delete this booking");
 
 	const { error } = await supabase
 		.from("bookings")
@@ -42,6 +41,33 @@ export async function deleteReservation(bookingId) {
 		.eq("id", bookingId);
 	if (error) throw new Error("Reservation could not be deleted");
 	revalidatePath("/account/reservations");
+}
+
+// b2 : create function SA to update
+export async function updateReservation(formData) {
+	// Authentication
+	const session = await auth();
+	if (!session) throw new Error("You must be logged in");
+
+	// b3 : extract from "formData"
+	const bookingId = Number(formData.get("bookingId"));
+	const numGuests = Number(formData.get("numGuests"));
+	const observations = formData.get("observations").slice(0, 1000);
+
+	const updateBooking = { numGuests, observations };
+	console.log(updateBooking);
+	// b4 : actually update to supabase (Mutation)
+	const { error } = await supabase
+		.from("bookings")
+		.update(updateBooking)
+		.eq("id", bookingId);
+	// error handling
+	if (error) throw new Error("Could not update Booking");
+	// revalidatePath
+	revalidatePath("/account/reservations");
+
+	//  redirecting
+	redirect("/account/reservations");
 }
 
 export async function signInAction() {

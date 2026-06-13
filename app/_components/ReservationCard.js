@@ -8,6 +8,8 @@ export const formatDistanceFromNow = (dateStr) =>
 		addSuffix: true,
 	}).replace("about ", "");
 
+
+
 function ReservationCard({ booking }) {
 	const {
 		id,
@@ -69,7 +71,7 @@ function ReservationCard({ booking }) {
 					</p>
 				</div>
 			</div>
-			{/* edit and delete button */}
+			{/* Edit and delete button */}
 			<div className="flex flex-col border-l border-primary-800 w-[100px]">
         {/* b4 : isPast is a built‑in helper from date‑fns. */}
 				{!isPast(startDate) ? (
@@ -90,3 +92,10 @@ function ReservationCard({ booking }) {
 }
 
 export default ReservationCard;
+
+
+//  1. we need new page to edit reservation
+
+// 2. you need to  pass booking Id into the from action 
+
+// 3. once booking updated -> redirect to reservation page
