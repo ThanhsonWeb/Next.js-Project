@@ -1,7 +1,7 @@
+import SubmitButton from "@/app/_components/SubmitButton";
 import { updateReservation } from "@/app/_lib/actions";
 import { auth } from "@/app/_lib/auth";
 import { getBooking, getBookings, getCabin } from "@/app/_lib/data-service";
-import { useFormStatus } from "react-dom";
 
 // b1 : create new dynamic [bookingId] route:
 export default async function Page({ params }) {
@@ -11,8 +11,6 @@ export default async function Page({ params }) {
 	const booking = await getBooking(bookingId);
 
 	const { maxCapacity } = await getCabin(booking.cabinId);
-
-	
 
 	return (
 		<div>
@@ -59,9 +57,7 @@ export default async function Page({ params }) {
 				</div>
 
 				<div className="flex justify-end items-center gap-6">
-					<button className="bg-accent-500 px-8 py-4 text-primary-800 font-semibold hover:bg-accent-600 transition-all disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300">
-						Update reservation
-					</button>
+					<SubmitButton>Update reservation</SubmitButton>
 				</div>
 			</form>
 		</div>
