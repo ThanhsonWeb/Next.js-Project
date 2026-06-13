@@ -4,7 +4,7 @@ import { revalidate } from "../cabins/page";
 // we are on the Back end ^^
 import { auth, signIn, signOut } from "./auth";
 import { supabase } from "./supabase";
-// b5 : form submit -> Nextjs send formData to SA
+import { getBookings } from "./data-service";
 export async function UpdateGuest(formData) {
 	const session = await auth();
 	if (!session) throw new Error("You must be logged in");
@@ -23,7 +23,25 @@ export async function UpdateGuest(formData) {
 	if (error) throw new Error("Guest could not be updated");
 	revalidatePath("/account/profile");
 	return data;
-	//  refresh the cache
+}
+// b1 : delete booking on id
+export async function deleteReservation(bookingId) {
+	const session = await auth();
+	if (!session) throw new Error("You must be logged in");
+	// b3 : getBookings -> compare all the ids of bookings to 
+	const guestBookings = await getBookings(session.user.guestId);
+	const guestBookingIds = guestBookings.map((booking) => booking.id);
+
+	if(!guestBookingIds.includes(bookingId))
+		throw new Error("you are not allowed to delete this booking")
+
+
+	const { error } = await supabase
+		.from("bookings")
+		.delete()
+		.eq("id", bookingId);
+	if (error) throw new Error("Reservation could not be deleted");
+	revalidatePath("/account/reservations");
 }
 
 export async function signInAction() {

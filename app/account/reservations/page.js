@@ -10,7 +10,7 @@ export const metadata = {
 export default async function Page() {
 	const session = await auth();
 	// b1:  get  bookings from exact current guest (by id)
-	const bookings = await getBookings(session.user.guestId); //6
+	const bookings = await getBookings(session.user.guestId); //6                                                
 
 	// b2 in supabase -> bookings table -> two rows have guestId is 6
 	
