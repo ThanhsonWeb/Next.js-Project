@@ -1,31 +1,50 @@
 "use client";
 
+import { constructNow, differenceInDays } from "date-fns";
 import { useReservation } from "./ReservationContext";
+import { createBooking } from "../_lib/actions";
 
 function ReservationForm({ cabin, user }) {
 	const { range } = useReservation();
-
-	// CHANGE
-	const { maxCapacity } = cabin;
+	const { maxCapacity, regularPrice, discount, id } = cabin;
+	// b1 find object's value
+	const startDate = range?.from;
+	const endDate = range?.to;
+	const numNights = differenceInDays(endDate, startDate);
+	const cabinPrice = numNights * (regularPrice - discount);
+	// b2 combine in one place
+	const bookingData = {
+		startDate,
+		endDate,
+		numNights,
+		cabinPrice,
+		cabinId: id,
+	};
+	// b3 : Bind server action with bookingData - WTF is this ? =))
+	const createBookingWithData = createBooking.bind(null, bookingData);
 
 	return (
 		<div className="scale-[1.01]">
 			<div className="bg-primary-800 text-primary-300 px-16 py-2 flex justify-between items-center">
 				<p>Logged in as</p>
 
-				<div className='flex gap-4 items-center'>
-          <img
-            // Important to display google profile images
-            referrerPolicy='no-referrer'
-            className='h-8 rounded-full'
-            src={user.image}
-            alt={user.name}
-          />
-          <p>{user.name}</p>
-        </div> 
+				<div className="flex gap-4 items-center">
+					<img
+						// Important to display google profile images
+						referrerPolicy="no-referrer"
+						className="h-8 rounded-full"
+						src={user.image}
+						alt={user.name}
+					/>
+					<p>{user.name}</p>
+				</div>
 			</div>
 
-			<form className="bg-primary-900 py-10 px-16 text-lg flex gap-5 flex-col">
+			<form
+			// b5 : form submit -> sen this to SA
+				action={createBookingWithData}
+				className="bg-primary-900 py-10 px-16 text-lg flex gap-5 flex-col"
+			>
 				{/* How many Guests ? */}
 				<div className="space-y-2">
 					<label htmlFor="numGuests">How many guests?</label>
