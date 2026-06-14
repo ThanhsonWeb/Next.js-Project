@@ -4,8 +4,6 @@ import { useFormStatus } from "react-dom";
 
 // this is a hook -> inside client-component
 export default function SubmitButton({ children }) {
-	// can't use inside component contain form
-
 	const { pending } = useFormStatus();
 	return (
 		<button

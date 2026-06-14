@@ -1,4 +1,5 @@
 import ReservationCard from "@/app/_components/ReservationCard";
+import ReservationList from "@/app/_components/ReservationList";
 import { auth } from "@/app/_lib/auth";
 import { getBookings } from "@/app/_lib/data-service";
 import Link from "next/link";
@@ -10,10 +11,10 @@ export const metadata = {
 export default async function Page() {
 	const session = await auth();
 	// b1:  get  bookings from exact current guest (by id)
-	const bookings = await getBookings(session.user.guestId); //6                                                
+	const bookings = await getBookings(session.user.guestId); //6
 
 	// b2 in supabase -> bookings table -> two rows have guestId is 6
-	
+
 	return (
 		<div>
 			<h2 className="font-semibold text-2xl text-accent-400 mb-7">
@@ -29,11 +30,7 @@ export default async function Page() {
 					</Link>
 				</p>
 			) : (
-				<ul className="space-y-6">
-					{bookings.map((booking) => (
-						<ReservationCard booking={booking} key={booking.id} />
-					))}
-				</ul>
+				<ReservationList bookings={bookings} />
 			)}
 		</div>
 	);
