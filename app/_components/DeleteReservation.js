@@ -6,7 +6,7 @@ import { useTransition } from "react";
 import SpinnerMini from "./SpinnerMini";
 
 function DeleteReservation({ bookingId, onDelete }) {
-	const { isPending, startTransition } = useTransition();
+	const [ isPending, startTransition ] = useTransition();
 	function handleDelete() {
 		//b2 : use 
 		startTransition(() => onDelete(bookingId));
