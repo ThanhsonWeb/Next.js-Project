@@ -7,7 +7,7 @@ import { createBooking } from "../_lib/actions";
 function ReservationForm({ cabin, user }) {
 	const { range } = useReservation();
 	const { maxCapacity, regularPrice, discount, id } = cabin;
-	// b1 find object's value
+	// b1 find object's value (data)
 	const startDate = range?.from;
 	const endDate = range?.to;
 	const numNights = differenceInDays(endDate, startDate);
@@ -41,7 +41,7 @@ function ReservationForm({ cabin, user }) {
 			</div>
 
 			<form
-			// b5 : form submit -> sen this to SA
+			// b5 : form submit -> call function SA
 				action={createBookingWithData}
 				className="bg-primary-900 py-10 px-16 text-lg flex gap-5 flex-col"
 			>

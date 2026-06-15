@@ -74,7 +74,7 @@ export async function createBooking(bookingData, formData) {
 	const session = await auth();
 	if (!session) throw new Error("You must be logged in");
 
-	// all the objects needed to create new booking
+	// all the data need to build new booking
 	const newBooking = {
 		...bookingData,
 		guestId: session.user.guestId,
@@ -88,6 +88,11 @@ export async function createBooking(bookingData, formData) {
 	};
 
 	console.log(newBooking);
+
+	// b5 Insert into Supabase
+	const { error } = await supabase.from("bookings").insert([newBooking]);
+
+	if (error) throw new Error("Could not create a new Booking :(");
 }
 
 export async function signInAction() {
