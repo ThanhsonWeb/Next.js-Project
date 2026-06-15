@@ -94,6 +94,8 @@ export async function createBooking(bookingData, formData) {
 
 	// b3
 	revalidatePath(`/cabins/${bookingData.cabinId}`);
+
+	redirect("/cabins/thankyou")
 }
 
 export async function signInAction() {
