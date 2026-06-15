@@ -3,16 +3,16 @@
 import { constructNow, differenceInDays } from "date-fns";
 import { useReservation } from "./ReservationContext";
 import { createBooking } from "../_lib/actions";
+import SubmitButton from "./SubmitButton";
 
 function ReservationForm({ cabin, user }) {
-	const { range } = useReservation();
+	// b1
+	const { range, resetRange } = useReservation();
 	const { maxCapacity, regularPrice, discount, id } = cabin;
-	// b1 find object's value (data)
 	const startDate = range?.from;
 	const endDate = range?.to;
 	const numNights = differenceInDays(endDate, startDate);
 	const cabinPrice = numNights * (regularPrice - discount);
-	// b2 combine in one place
 	const bookingData = {
 		startDate,
 		endDate,
@@ -20,7 +20,6 @@ function ReservationForm({ cabin, user }) {
 		cabinPrice,
 		cabinId: id,
 	};
-	// b3 : Bind server action with bookingData - WTF is this ? =))
 	const createBookingWithData = createBooking.bind(null, bookingData);
 
 	return (
@@ -41,8 +40,12 @@ function ReservationForm({ cabin, user }) {
 			</div>
 
 			<form
-			// b5 : form submit -> call function SA
-				action={createBookingWithData}
+				// b2
+				// action={createBookingWithData}
+				action={async (formData) => {
+					await createBookingWithData(formData);
+					resetRange();
+				}}
 				className="bg-primary-900 py-10 px-16 text-lg flex gap-5 flex-col"
 			>
 				{/* How many Guests ? */}
@@ -79,10 +82,8 @@ function ReservationForm({ cabin, user }) {
 
 				<div className="flex justify-end items-center gap-6">
 					<p className="text-primary-300 text-base">Start by selecting dates</p>
-
-					<button className="bg-accent-500 px-8 py-4 text-primary-800 font-semibold hover:bg-accent-600 transition-all disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300">
-						Reserve now
-					</button>
+					{/* b5 */}
+					{startDate && endDate && <SubmitButton> Reserve now</SubmitButton>}
 				</div>
 			</form>
 		</div>

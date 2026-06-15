@@ -68,13 +68,12 @@ export async function updateReservation(formData) {
 	//  redirecting
 	redirect("/account/reservations");
 }
-// b4
+
 export async function createBooking(bookingData, formData) {
 	// Authentication
 	const session = await auth();
 	if (!session) throw new Error("You must be logged in");
 
-	// all the data need to build new booking
 	const newBooking = {
 		...bookingData,
 		guestId: session.user.guestId,
@@ -89,10 +88,12 @@ export async function createBooking(bookingData, formData) {
 
 	console.log(newBooking);
 
-	// b5 Insert into Supabase
 	const { error } = await supabase.from("bookings").insert([newBooking]);
 
 	if (error) throw new Error("Could not create a new Booking :(");
+
+	// b3
+	revalidatePath(`/cabins/${bookingData.cabinId}`);
 }
 
 export async function signInAction() {
